@@ -1,0 +1,10 @@
+Plamen Kirov,assistant,41,3000.00,
+Gari Plamenov,head,51,4000.00, 6
+Biser Biserov,sports,48,18000.00
+Daniel Danielov,executive,55,25000.00
+Grigor Grigorov,technical,61,20000.00
+Petar Petrov,forward,18,9000.00,3,0,10
+Ivan Ivanov,forward,22,10000.00,25,10,50
+Kaloyan Kaloyanov,defender,24,6000.00,5,2,80
+Georgi Georgiev,midfielder,27,11000.00,19,33,100
+Dimitar Dimitrov,goalkeeper,35,7500.00,0,0,300
