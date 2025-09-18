@@ -1,0 +1,13 @@
+Ivan,Petrov,cardiology,35,8500.00,120
+Maria,Georgieva,neurology,42,9200.00,95
+Stefan,Dimitrov,surgery,38,10500.00,85
+Ana,Nikolova,pediatrics,29,7800.00,150
+Georgi,Stoyanov,orthopedics,45,11000.00,75
+Elena,Ivanova,emergency,25,4200.00,180
+Petar,Marinov,ICU,31,4800.00,220
+Svetlana,Petrova,cardiology,28,4000.00,195
+Dimitar,Georgiev,surgery,33,4500.00,165
+Mariya,Dimitrova,pediatrics,27,3900.00,210
+Nikolay Stoev,22,2800.00,450
+Vasil Petkov,35,3200.00,380
+Todor Ivanov,28,2900.00,520
