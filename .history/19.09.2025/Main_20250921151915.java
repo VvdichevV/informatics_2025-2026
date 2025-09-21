@@ -8,7 +8,7 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) {
         HashMap<String, Product> products = new HashMap<>();
-        File file = new File("product.txt");
+        File file = new File("~/Prproduct.txt");
 
         try{
         BufferedReader read = new BufferedReader(new FileReader(file));
