@@ -21,9 +21,10 @@
   "peacock.color": "#007fff",
   "java.debug.settings.onBuildFailureProceed": true,
   "java.project.sourcePaths": [
+    "26.01.2026",
     "19.09.2025",
     "12.09.2025",
     ".history",
-    "26.01.2026"
+    "29.01.2026"
   ]
 }
