@@ -9,6 +9,7 @@ public class LoginForm {
     static JPasswordField passwordField;
     static JButton okButton, cancelButton;
 
+    // load from environment when available (safer) with sensible defaults
     static final String DB_URL = System.getenv().getOrDefault("DB_URL",
             "jdbc:mysql://127.0.0.1:3306/users?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC");
     static final String DB_USER = System.getenv().getOrDefault("DB_USER", "root");

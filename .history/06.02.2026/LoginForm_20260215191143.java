@@ -9,6 +9,7 @@ public class LoginForm {
     static JPasswordField passwordField;
     static JButton okButton, cancelButton;
 
+    // load from environment when available (safer) with sensible defaults
     static final String DB_URL = System.getenv().getOrDefault("DB_URL",
             "jdbc:mysql://127.0.0.1:3306/users?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC");
     static final String DB_USER = System.getenv().getOrDefault("DB_USER", "root");
@@ -16,7 +17,7 @@ public class LoginForm {
 
     static {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver"); 
+            Class.forName("com.mysql.cj.jdbc.Driver"); // ensure driver is available
         } catch (ClassNotFoundException ignored) {
         }
     }
@@ -72,7 +73,7 @@ public class LoginForm {
     static boolean checkLogin(String user, String pass) {
 
         if (user == null || user.isEmpty() || pass == null || pass.isEmpty()) {
-            return false; 
+            return false; // quick fail for empty credentials
         }
 
         String[] candidateTables = { "user", "users" };

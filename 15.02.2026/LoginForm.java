@@ -2,12 +2,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoginForm {
 
     static JTextField userTextField;
     static JPasswordField passwordField;
-    static JButton okButton, cancelButton;
+    static JButton okButton, cancelButton, nextButton, prevButton;
+    static java.util.List<java.util.List<String>> records = new ArrayList<>();
+    static int currentIndex = -1;
 
     static final String DB_URL = System.getenv().getOrDefault("DB_URL",
             "jdbc:mysql://127.0.0.1:3306/users?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC");
@@ -16,7 +20,7 @@ public class LoginForm {
 
     static {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver"); 
+            Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException ignored) {
         }
     }
@@ -26,7 +30,7 @@ public class LoginForm {
         JFrame frame = new JFrame("Login Form");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 200);
-        frame.setLayout(new GridLayout(3, 1));
+        frame.setLayout(new GridLayout(4, 1));
 
         JPanel userPane = new JPanel();
         userPane.add(new JLabel("Username:"));
@@ -42,18 +46,29 @@ public class LoginForm {
         okButton = new JButton("OK");
         cancelButton = new JButton("Cancel");
 
+        JPanel secondButtonPane = new JPanel();
+        prevButton = new JButton("<<");
+        nextButton = new JButton(">>");
+
         buttonPane.add(okButton);
         buttonPane.add(cancelButton);
+        secondButtonPane.add(prevButton);
+        secondButtonPane.add(nextButton);
 
         frame.add(userPane);
         frame.add(passPane);
         frame.add(buttonPane);
+        frame.add(secondButtonPane);
 
         okButton.addActionListener(e -> login());
         cancelButton.addActionListener(e -> System.exit(0));
+        nextButton.addActionListener(e -> nextRecord());
+        prevButton.addActionListener(e -> prevRecord());
+
 
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        loadUsers();
     }
 
     static void login() {
@@ -72,7 +87,7 @@ public class LoginForm {
     static boolean checkLogin(String user, String pass) {
 
         if (user == null || user.isEmpty() || pass == null || pass.isEmpty()) {
-            return false; 
+            return false;
         }
 
         String[] candidateTables = { "user", "users" };
@@ -91,7 +106,7 @@ public class LoginForm {
                 } catch (SQLException e) {
 
                     if (e.getErrorCode() == 1146 || "42S02".equals(e.getSQLState())) {
-                        continue; 
+                        continue;
                     }
                     throw e;
                 }
@@ -112,4 +127,78 @@ public class LoginForm {
         System.out.println("DB URL: " + DB_URL + "  DB_USER: " + DB_USER);
         SwingUtilities.invokeLater(LoginForm::createAndShowGUI);
     }
+
+    static void loadUsers() {
+
+        records.clear();
+        currentIndex = -1;
+
+        String sql = "SELECT username, password FROM user";
+
+        try (Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+                PreparedStatement pst = con.prepareStatement(sql);
+                ResultSet rs = pst.executeQuery()) {
+
+            ResultSetMetaData meta = rs.getMetaData();
+            int columnCount = meta.getColumnCount();
+
+            while (rs.next()) {
+
+                List<String> row = new ArrayList<>();
+
+                for (int i = 1; i <= columnCount; i++) {
+                    row.add(rs.getString(i));
+                }
+
+                records.add(row);
+            }
+
+            if (!records.isEmpty()) {
+                currentIndex = 0;
+                showRecord(currentIndex);
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error loading users: " + ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    static void showRecord(int index) {
+
+        if (index >= 0 && index < records.size()) {
+
+            List<String> row = records.get(index);
+
+            userTextField.setText(row.get(0));
+            passwordField.setText(row.get(1));
+        }
+    }
+
+    static void nextRecord() {
+
+        if (records.isEmpty())
+            return;
+
+        if (currentIndex < records.size() - 1) {
+            currentIndex++;
+            showRecord(currentIndex);
+        } else {
+            JOptionPane.showMessageDialog(null, "Already at last record.");
+        }
+    }
+
+    static void prevRecord() {
+
+        if (records.isEmpty())
+            return;
+
+        if (currentIndex > 0) {
+            currentIndex--;
+            showRecord(currentIndex);
+        } else {
+            JOptionPane.showMessageDialog(null, "Already at first record.");
+        }
+    }
+
 }

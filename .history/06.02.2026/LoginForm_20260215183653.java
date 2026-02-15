@@ -9,6 +9,7 @@ public class LoginForm {
     static JPasswordField passwordField;
     static JButton okButton, cancelButton;
 
+    // load from environment when available (safer) with sensible defaults
     static final String DB_URL = System.getenv().getOrDefault("DB_URL",
             "jdbc:mysql://127.0.0.1:3306/users?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC");
     static final String DB_USER = System.getenv().getOrDefault("DB_USER", "root");
@@ -16,7 +17,7 @@ public class LoginForm {
 
     static {
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver"); 
+            Class.forName("com.mysql.cj.jdbc.Driver"); // ensure driver is available
         } catch (ClassNotFoundException ignored) {
         }
     }
@@ -72,9 +73,10 @@ public class LoginForm {
     static boolean checkLogin(String user, String pass) {
 
         if (user == null || user.isEmpty() || pass == null || pass.isEmpty()) {
-            return false; 
+            return false; // quick fail for empty credentials
         }
 
+        // try common table names if one doesn't exist in the 'users' database
         String[] candidateTables = { "user", "users" };
 
         try (Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS)) {
@@ -89,9 +91,9 @@ public class LoginForm {
                         }
                     }
                 } catch (SQLException e) {
-
+                    // table doesn't exist? try next candidate. otherwise rethrow
                     if (e.getErrorCode() == 1146 || "42S02".equals(e.getSQLState())) {
-                        continue; 
+                        continue; // try next table name
                     }
                     throw e;
                 }
@@ -109,7 +111,6 @@ public class LoginForm {
     }
 
     public static void main(String[] args) {
-        System.out.println("DB URL: " + DB_URL + "  DB_USER: " + DB_USER);
         SwingUtilities.invokeLater(LoginForm::createAndShowGUI);
     }
 }

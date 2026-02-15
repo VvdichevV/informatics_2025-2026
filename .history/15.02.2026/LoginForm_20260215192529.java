@@ -7,7 +7,7 @@ public class LoginForm {
 
     static JTextField userTextField;
     static JPasswordField passwordField;
-    static JButton okButton, cancelButton;
+    static JButton okButton, cancelButton, nextButton, prevButton;
 
     static final String DB_URL = System.getenv().getOrDefault("DB_URL",
             "jdbc:mysql://127.0.0.1:3306/users?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC");

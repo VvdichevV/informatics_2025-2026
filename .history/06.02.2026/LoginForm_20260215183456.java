@@ -9,17 +9,10 @@ public class LoginForm {
     static JPasswordField passwordField;
     static JButton okButton, cancelButton;
 
-    static final String DB_URL = System.getenv().getOrDefault("DB_URL",
-            "jdbc:mysql://127.0.0.1:3306/users?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC");
-    static final String DB_USER = System.getenv().getOrDefault("DB_USER", "root");
-    static final String DB_PASS = System.getenv().getOrDefault("DB_PASS", "Password1~");
-
-    static {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver"); 
-        } catch (ClassNotFoundException ignored) {
-        }
-    }
+    static final String DB_URL =
+            "jdbc:mysql://localhost:3306/users?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+    static final String DB_USER = "root";
+    static final String DB_PASS = "Password1~";
 
     static void createAndShowGUI() {
 
@@ -72,44 +65,29 @@ public class LoginForm {
     static boolean checkLogin(String user, String pass) {
 
         if (user == null || user.isEmpty() || pass == null || pass.isEmpty()) {
-            return false; 
+            return false; // quick fail for empty credentials
         }
 
-        String[] candidateTables = { "user", "users" };
+        String sql = "SELECT 1 FROM `user` WHERE username = ? AND password = ? LIMIT 1";
 
-        try (Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS)) {
-            for (String tbl : candidateTables) {
-                String sql = "SELECT 1 FROM `" + tbl + "` WHERE username = ? AND password = ? LIMIT 1";
-                try (PreparedStatement pst = con.prepareStatement(sql)) {
-                    pst.setString(1, user);
-                    pst.setString(2, pass);
-                    try (ResultSet rs = pst.executeQuery()) {
-                        if (rs.next()) {
-                            return true;
-                        }
-                    }
-                } catch (SQLException e) {
+        try (Connection con = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+             PreparedStatement pst = con.prepareStatement(sql)) {
 
-                    if (e.getErrorCode() == 1146 || "42S02".equals(e.getSQLState())) {
-                        continue; 
-                    }
-                    throw e;
-                }
+            pst.setString(1, user);
+            pst.setString(2, pass);
+
+            try (ResultSet rs = pst.executeQuery()) {
+                return rs.next();
             }
 
         } catch (SQLException ex) {
-            String msg = ex.getMessage();
-            if (msg != null && msg.contains("Public Key Retrieval is not allowed")) {
-                msg += " — add allowPublicKeyRetrieval=true to the JDBC URL (for local testing).";
-            }
-            JOptionPane.showMessageDialog(null, "Database error: " + msg, "DB Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Database error: " + ex.getMessage(), "DB Error", JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace();
         }
         return false;
     }
 
     public static void main(String[] args) {
-        System.out.println("DB URL: " + DB_URL + "  DB_USER: " + DB_USER);
         SwingUtilities.invokeLater(LoginForm::createAndShowGUI);
     }
 }

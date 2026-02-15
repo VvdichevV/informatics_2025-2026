@@ -7,7 +7,7 @@ public class LoginForm {
 
     static JTextField userTextField;
     static JPasswordField passwordField;
-    static JButton okButton, cancelButton;
+    static JButton okButton, cancelButton, nextButton, prevButton;
 
     static final String DB_URL = System.getenv().getOrDefault("DB_URL",
             "jdbc:mysql://127.0.0.1:3306/users?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC");
@@ -42,12 +42,19 @@ public class LoginForm {
         okButton = new JButton("OK");
         cancelButton = new JButton("Cancel");
 
+        JPanel secondButtonPane = new JPanel();
+        prevButton = new JButton("<<");
+        nextButton = new JButton(">>");
+        
+
         buttonPane.add(okButton);
         buttonPane.add(cancelButton);
+        secondButtonPane.add(nextButton);
+        secondButtonPane.add(prevButton);
 
         frame.add(userPane);
         frame.add(passPane);
-        frame.add(buttonPane);
+        frame.add(secondButtonPane);
 
         okButton.addActionListener(e -> login());
         cancelButton.addActionListener(e -> System.exit(0));
