@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 import com.mysql.cj.Messages;
 import com.mysql.cj.jdbc.ConnectionImpl;
@@ -63,7 +64,7 @@ public class RandomBalanceStrategy implements BalanceStrategy {
         Map<String, Integer> allowListMap = this.getArrayIndexMap(allowList);
 
         for (int attempts = 0; attempts < numRetries;) {
-            int random = (int) Math.floor(Math.random() * allowList.size());
+            int random = (int) Math.floor(ThreadLocalRandom.current().nextDouble() * allowList.size());
             if (allowList.size() == 0) {
                 throw SQLError.createSQLException(Messages.getString("RandomBalanceStrategy.0"), null);
             }

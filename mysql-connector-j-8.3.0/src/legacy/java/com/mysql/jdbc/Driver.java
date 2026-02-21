@@ -45,4 +45,9 @@ public class Driver extends com.mysql.cj.jdbc.Driver {
                 + "The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.");
     }
 
+    public java.util.logging.Logger getParentLogger() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

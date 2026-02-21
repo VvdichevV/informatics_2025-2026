@@ -67,4 +67,9 @@ public class Driver extends NonRegisteringDriver implements java.sql.Driver {
         // Required for Class.forName().newInstance().
     }
 
+    public java.util.logging.Logger getParentLogger() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

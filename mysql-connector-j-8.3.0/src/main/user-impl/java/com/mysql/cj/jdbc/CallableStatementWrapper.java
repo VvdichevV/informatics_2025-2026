@@ -1930,4 +1930,13 @@ public class CallableStatementWrapper extends PreparedStatementWrapper implement
         }
     }
 
+    public void closeOnCompletion() {
+        // TODO Auto-generated method stub
+    }
+
+    public boolean isCloseOnCompletion() {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }

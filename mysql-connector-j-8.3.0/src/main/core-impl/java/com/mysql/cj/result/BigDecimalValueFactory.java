@@ -31,6 +31,7 @@ package com.mysql.cj.result;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.nio.ByteBuffer;
 
 import com.mysql.cj.conf.PropertySet;
@@ -66,7 +67,7 @@ public class BigDecimalValueFactory extends AbstractNumericValueFactory<BigDecim
                 return d.setScale(this.scale);
             } catch (ArithmeticException ex) {
                 // try this if above fails
-                return d.setScale(this.scale, BigDecimal.ROUND_HALF_UP);
+                return d.setScale(this.scale, RoundingMode.HALF_UP);
             }
         }
 

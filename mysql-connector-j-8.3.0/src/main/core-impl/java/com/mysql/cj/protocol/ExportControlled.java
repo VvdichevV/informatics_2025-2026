@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.Socket;
+import java.net.URI;
 import java.net.URL;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -323,7 +324,7 @@ public class ExportControlled {
             // check URL
             if (!StringUtils.isNullOrEmpty(keyStoreUrl)) {
                 try {
-                    new URL(keyStoreUrl);
+                    URI.create(keyStoreUrl).toURL();
                 } catch (MalformedURLException e) {
                     keyStoreUrl = "file:" + keyStoreUrl;
                 }
@@ -349,7 +350,7 @@ public class ExportControlled {
             // check URL
             if (!StringUtils.isNullOrEmpty(trustStoreUrl)) {
                 try {
-                    new URL(trustStoreUrl);
+                    URI.create(trustStoreUrl).toURL();
                 } catch (MalformedURLException e) {
                     trustStoreUrl = "file:" + trustStoreUrl;
                 }
@@ -501,7 +502,7 @@ public class ExportControlled {
                     if (!StringUtils.isNullOrEmpty(this.keyStoreSettings.keyStoreType)) {
                         KeyStore clientKeyStore = StringUtils.isNullOrEmpty(this.keyStoreProvider) ? KeyStore.getInstance(this.keyStoreSettings.keyStoreType)
                                 : KeyStore.getInstance(this.keyStoreSettings.keyStoreType, this.keyStoreProvider);
-                        URL ksURL = new URL(this.keyStoreSettings.keyStoreUrl);
+                        URL ksURL = URI.create(this.keyStoreSettings.keyStoreUrl).toURL();
                         char[] password = this.keyStoreSettings.keyStorePassword == null ? new char[0] : this.keyStoreSettings.keyStorePassword.toCharArray();
                         ksIS = ksURL.openStream();
                         clientKeyStore.load(ksIS, password);
@@ -549,7 +550,7 @@ public class ExportControlled {
                     if (!StringUtils.isNullOrEmpty(this.trustStoreSettings.keyStoreUrl) && !StringUtils.isNullOrEmpty(this.trustStoreSettings.keyStoreType)) {
                         char[] trustStorePassword = this.trustStoreSettings.keyStorePassword == null ? new char[0]
                                 : this.trustStoreSettings.keyStorePassword.toCharArray();
-                        trustStoreIS = new URL(this.trustStoreSettings.keyStoreUrl).openStream();
+                        trustStoreIS = URI.create(this.trustStoreSettings.keyStoreUrl).toURL().openStream();
                         trustKeyStore = StringUtils.isNullOrEmpty(this.keyStoreProvider) ? KeyStore.getInstance(this.trustStoreSettings.keyStoreType)
                                 : KeyStore.getInstance(this.trustStoreSettings.keyStoreType, this.keyStoreProvider);
                         trustKeyStore.load(trustStoreIS, trustStorePassword);

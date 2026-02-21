@@ -36,6 +36,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.sql.Array;
 import java.sql.Date;
@@ -1173,11 +1174,11 @@ public class ResultSetImpl extends NativeResultset implements ResultSetInternalM
 
             case FLOAT:
             case FLOAT_UNSIGNED:
-                return new Float(getFloat(columnIndex));
+                return Float.valueOf(getFloat(columnIndex));
 
             case DOUBLE:
             case DOUBLE_UNSIGNED:
-                return new Double(getDouble(columnIndex));
+                return Double.valueOf(getDouble(columnIndex));
 
             case CHAR:
             case ENUM:
@@ -1446,11 +1447,11 @@ public class ResultSetImpl extends NativeResultset implements ResultSetInternalM
 
             case FLOAT:
             case FLOAT_UNSIGNED:
-                return new Float(getFloat(columnIndex));
+                return Float.valueOf(getFloat(columnIndex));
 
             case DOUBLE:
             case DOUBLE_UNSIGNED:
-                return new Double(getDouble(columnIndex));
+                return Double.valueOf(getDouble(columnIndex));
 
             case CHAR:
             case ENUM:
@@ -1591,7 +1592,7 @@ public class ResultSetImpl extends NativeResultset implements ResultSetInternalM
         }
 
         try {
-            return new URL(val);
+            return URI.create(val).toURL();
         } catch (MalformedURLException mfe) {
             throw SQLError.createSQLException(Messages.getString("ResultSet.Malformed_URL____104") + val + "'", MysqlErrorNumbers.SQL_STATE_ILLEGAL_ARGUMENT,
                     getExceptionInterceptor());
@@ -1607,7 +1608,7 @@ public class ResultSetImpl extends NativeResultset implements ResultSetInternalM
         }
 
         try {
-            return new URL(val);
+            return URI.create(val).toURL();
         } catch (MalformedURLException mfe) {
             throw SQLError.createSQLException(Messages.getString("ResultSet.Malformed_URL____107") + val + "'", MysqlErrorNumbers.SQL_STATE_ILLEGAL_ARGUMENT,
                     getExceptionInterceptor());

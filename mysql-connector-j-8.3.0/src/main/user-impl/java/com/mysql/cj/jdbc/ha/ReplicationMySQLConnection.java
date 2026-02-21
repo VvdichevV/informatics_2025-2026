@@ -250,4 +250,22 @@ public class ReplicationMySQLConnection extends MultiHostMySQLConnection impleme
         getThisAsProxy().replicasConnection.clearHasTriedMaster();
     }
 
+    public int getNetworkTimeout() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    public java.lang.String getSchema() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public void setNetworkTimeout(java.util.concurrent.Executor executor, int milliseconds) {
+        // TODO Auto-generated method stub
+    }
+
+    public void setSchema(java.lang.String schema) throws java.sql.SQLException {
+        // TODO Auto-generated method stub
+    }
+
 }
