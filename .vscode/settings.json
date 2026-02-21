@@ -32,5 +32,8 @@
   "java.project.referencedLibraries": [
     "29.01.2026\\mysqljdbcdriver\\mysql-connector-j-9.5.0.jar"
   ],
-  "java.configuration.updateBuildConfiguration": "interactive"
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "chat.tools.terminal.autoApprove": {
+    "mvn -f mysql-connector-j-8.3.0/src/build/misc/pom.xml": true
+  }
 }

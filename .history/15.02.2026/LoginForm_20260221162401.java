@@ -27,54 +27,56 @@ public class LoginForm {
 
     static void createAndShowGUI() {
 
-    JFrame frame = new JFrame("Login Form");
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setSize(400, 200);
-    frame.setLayout(new GridLayout(4, 1));
+        JFrame frame = new JFrame("Login Form");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 200);
+        frame.setLayout(new GridLayout(4, 1));
 
-    JPanel userPane = new JPanel();
-    userPane.add(new JLabel("Username:"));
-    userTextField = new JTextField(20);
-    userPane.add(userTextField);
+        JPanel userPane = new JPanel();
+        userPane.add(new JLabel("Username:"));
+        userTextField = new JTextField(20);
+        userPane.add(userTextField);
 
-    JPanel passPane = new JPanel();
-    passPane.add(new JLabel("Password:"));
-    passwordField = new JPasswordField(20);
-    passPane.add(passwordField);
+        JPanel passPane = new JPanel();
+        passPane.add(new JLabel("Password:"));
+        passwordField = new JPasswordField(20);
+        passPane.add(passwordField);
 
-    JPanel buttonPane = new JPanel();
-    okButton = new JButton("OK");
-    cancelButton = new JButton("Cancel");
-    JButton registerButton = new JButton("Register");
+        JPanel buttonPane = new JPanel();
+        okButton = new JButton("OK");
+        cancelButton = new JButton("Cancel");
 
-    JPanel secondButtonPane = new JPanel();
-    prevButton = new JButton("<<");
-    nextButton = new JButton(">>");
+        JPanel secondButtonPane = new JPanel();
+        prevButton = new JButton("<<");
+        nextButton = new JButton(">>");
 
-    buttonPane.add(okButton);
-    buttonPane.add(cancelButton);
-    buttonPane.add(registerButton);
+        buttonPane.add(okButton);
+        buttonPane.add(cancelButton);
+        secondButtonPane.add(prevButton);
+        secondButtonPane.add(nextButton);
 
-    secondButtonPane.add(prevButton);
-    secondButtonPane.add(nextButton);
+        frame.add(userPane);
+        frame.add(passPane);
+        frame.add(buttonPane);
+        frame.add(secondButtonPane);
 
-    frame.add(userPane);
-    frame.add(passPane);
-    frame.add(buttonPane);
-    frame.add(secondButtonPane);
+        okButton.addActionListener(e -> login());
+        cancelButton.addActionListener(e -> System.exit(0));
+        nextButton.addActionListener(e -> nextRecord());
+        prevButton.addActionListener(e -> prevRecord());
 
-    okButton.addActionListener(e -> login());
-    cancelButton.addActionListener(e -> System.exit(0));
-    nextButton.addActionListener(e -> nextRecord());
-    prevButton.addActionListener(e -> prevRecord());
 
-    registerButton.addActionListener(e -> new RegistrationForm());
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        loadUsers();
 
-    frame.setLocationRelativeTo(null);
-    frame.setVisible(true);
+        JButton registerButton = new JButton("Register");
+buttonPane.add(registerButton);
 
-    loadUsers();
-}
+registerButton.addActionListener(e -> {
+    new RegistrationForm();
+});
+    }
 
     static void login() {
 
