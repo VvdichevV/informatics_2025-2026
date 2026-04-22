@@ -130,7 +130,7 @@ public class RegistrationForm extends JFrame {
 
         if (!adminCheck()) return;
 
-        if (DatabaseHelper.getInstance().deleteUser(usernameField.getText())) {
+        if (DatabaseHelper.deleteUser(usernameField.getText())) {
             JOptionPane.showMessageDialog(this, "User Deleted!");
         } else {
             JOptionPane.showMessageDialog(this, "Delete Error!");
@@ -139,7 +139,7 @@ public class RegistrationForm extends JFrame {
 
     void selectUser() {
 
-        User user = DatabaseHelper.getInstance().getUser(usernameField.getText());
+        User user = DatabaseHelper.getUser(usernameField.getText());
 
         if (user != null) {
 

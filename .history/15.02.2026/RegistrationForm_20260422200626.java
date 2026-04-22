@@ -96,7 +96,7 @@ public class RegistrationForm extends JFrame {
         user.setAddress(addressField.getText());
         user.setPicture(photoBytes);
 
-        if (DatabaseHelper.getInstance().insertUser(user)) {
+        if (DatabaseHelper.insertUser(user)) {
             JOptionPane.showMessageDialog(this, "User Inserted!");
         } else {
             JOptionPane.showMessageDialog(this, "Insert Error!");
@@ -119,7 +119,7 @@ public class RegistrationForm extends JFrame {
         user.setAddress(addressField.getText());
         user.setPicture(photoBytes);
 
-        if (DatabaseHelper.getInstance().updateUser(user)) {
+        if (DatabaseHelper.updateUser(user)) {
             JOptionPane.showMessageDialog(this, "User Updated!");
         } else {
             JOptionPane.showMessageDialog(this, "Update Error!");
@@ -130,7 +130,7 @@ public class RegistrationForm extends JFrame {
 
         if (!adminCheck()) return;
 
-        if (DatabaseHelper.getInstance().deleteUser(usernameField.getText())) {
+        if (DatabaseHelper.deleteUser(usernameField.getText())) {
             JOptionPane.showMessageDialog(this, "User Deleted!");
         } else {
             JOptionPane.showMessageDialog(this, "Delete Error!");
@@ -139,7 +139,7 @@ public class RegistrationForm extends JFrame {
 
     void selectUser() {
 
-        User user = DatabaseHelper.getInstance().getUser(usernameField.getText());
+        User user = DatabaseHelper.getUser(usernameField.getText());
 
         if (user != null) {
 
@@ -191,19 +191,5 @@ public class RegistrationForm extends JFrame {
                 JOptionPane.showMessageDialog(this, "Error loading photo: " + ex.getMessage());
             }
         }
-    }
-
-    private boolean validateInput() {
-        if (usernameField.getText().isEmpty() || new String(passwordField.getPassword()).isEmpty() ||
-            firstNameField.getText().isEmpty() || lastNameField.getText().isEmpty() ||
-            emailField.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Please fill in all required fields!");
-            return false;
-        }
-        if (!emailField.getText().contains("@")) {
-            JOptionPane.showMessageDialog(this, "Invalid email format!");
-            return false;
-        }
-        return true;
     }
 }

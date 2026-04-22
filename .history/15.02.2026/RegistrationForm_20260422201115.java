@@ -139,7 +139,7 @@ public class RegistrationForm extends JFrame {
 
     void selectUser() {
 
-        User user = DatabaseHelper.getInstance().getUser(usernameField.getText());
+        User user = DatabaseHelper.getUser(usernameField.getText());
 
         if (user != null) {
 
